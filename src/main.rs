@@ -1,3 +1,8 @@
+#[macro_use]
+extern crate lalrpop_util;
+
+mod frontend;
+
 fn main() {
-    println!("Hello, world!");
+    frontend::parser::parse("");
 }

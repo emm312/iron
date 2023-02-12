@@ -1,0 +1,67 @@
+use std::str::FromStr;
+use crate::frontend::nodes::*;
+
+grammar;
+
+
+
+pub FullExpr: Box<Expr> = {
+    Expr,
+    Comparison
+}
+
+Expr: Box<Expr> = {
+    Expr ExprOp Factor => Box::new(Expr::BiOpNode(<>)),
+    Factor
+}
+
+Comparison: Box<Expr> = {
+    Expr ComparisonOp Expr => Box::new(Expr::ComparisonNode(<>)),
+}
+
+ComparisonOp: Comparison = {
+    "==" => Comparison::Eq,
+    "!=" => Comparison::Neq,
+    ">" => Comparison::Gt,
+    "<" => Comparison::Lt,
+    ">=" => Comparison::Gte,
+    "<=" => Comparison::Lte
+}
+
+ExprOp: Operation = {
+    "+" => Operation::Add,
+    "-" => Operation::Sub
+}
+
+Factor: Box<Expr> = {
+    Factor FactorOp Term => Box::new(Expr::BiOpNode(<>)),
+    Term
+}
+
+FactorOp: Operation = {
+    "*" => Operation::Mul,
+    "/" => Operation::Div,
+    "%" => Operation::Mod
+}
+
+Term: Box<Expr> = {
+    Num => Box::new(Expr::Num(<>)),
+    ident => Box::new(Expr::Ident(<>)),
+    "(" <Expr> ")"
+}
+
+Type: Types = {
+    r"i8" => Types::I8,
+    r"i16" => Types::I16,
+    r"i32" => Types::I32,
+    r"i64" => Types::I64,
+    r"u8" => Types::U8,
+    r"u16" => Types::U16,
+    r"u32" => Types::U32,
+    r"u64" => Types::U64,
+    r"Infer" => Types::Infer,
+    r"String" => Types::STRING,
+}
+
+Num: i64 = r"[0-9]+" => i64::from_str(<>).unwrap();
+ident: String = r"[a-zA-Z][a-zA-Z0-9_-]*" => <>.to_string();
