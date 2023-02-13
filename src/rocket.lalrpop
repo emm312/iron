@@ -3,8 +3,6 @@ use crate::frontend::nodes::*;
 
 grammar;
 
-
-
 pub FullExpr: Box<Expr> = {
     Expr,
     Comparison
@@ -51,16 +49,25 @@ Term: Box<Expr> = {
 }
 
 Type: Types = {
-    r"i8" => Types::I8,
-    r"i16" => Types::I16,
-    r"i32" => Types::I32,
-    r"i64" => Types::I64,
-    r"u8" => Types::U8,
-    r"u16" => Types::U16,
-    r"u32" => Types::U32,
-    r"u64" => Types::U64,
-    r"Infer" => Types::Infer,
-    r"String" => Types::STRING,
+    "i8" => Types::I8,
+    "i16" => Types::I16,
+    "i32" => Types::I32,
+    "i64" => Types::I64,
+    "u8" => Types::U8,
+    "u16" => Types::U16,
+    "u32" => Types::U32,
+    "u64" => Types::U64,
+    "String" => Types::STRING,
+    "Infer" => Types::Infer
+}
+
+FuncDef: Node = {
+    "func" ident "(" FuncArgs ")" 
+}
+
+FuncArgs: Vec<(String, Types)> = {
+    ident ":" Type "," ident ":" Type => ..., 
+    ident ":" Type => vec![(<>)],
 }
 
 Num: i64 = r"[0-9]+" => i64::from_str(<>).unwrap();

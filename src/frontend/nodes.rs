@@ -45,5 +45,6 @@ pub enum Types {
     U8,
     U16,
     U32,
+    U64,
     STRING,
 }
