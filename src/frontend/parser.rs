@@ -1,7 +1,7 @@
-lalrpop_mod!(pub rocket);
+lalrpop_mod!(pub iron);
 
 pub fn parse(src: &str) {
-    let expr = rocket::FullExprParser::new()
+    let expr = iron::FuncArgsParser::new()
         .parse(src)
         .unwrap();
     println!("{:#?}", expr);

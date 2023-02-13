@@ -65,7 +65,7 @@ FuncDef: Node = {
     "func" ident "(" FuncArgs ")" 
 }
 
-FuncArgs: Vec<(String, Types)> = {
+pub FuncArgs: Vec<(String, Types)> = {
     ident ":" Type "," ident ":" Type => ..., 
     ident ":" Type => vec![(<>)],
 }
