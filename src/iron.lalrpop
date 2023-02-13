@@ -3,7 +3,32 @@ use crate::frontend::nodes::*;
 
 grammar;
 
-pub FullExpr: Box<Expr> = {
+pub Iron: Vec<Node> = {
+    FuncDef* => <>
+}
+
+Statement: Node = {
+    ExprNode,
+    VariableDef,
+    IfStatement,
+    WhileStatement,
+    // ForLoopStatement
+}
+
+Block: Vec<Node> = {
+    Statement*
+}
+
+NonBoxedExpr: Expr = {
+    FullExpr => *<>
+}
+
+ExprNode: Node = {
+    <expr: FullExpr> ";" => Node::ExprNode(*expr)
+}
+
+FullExpr: Box<Expr> = {
+    FuncCall,
     Expr,
     Comparison
 }
@@ -62,13 +87,42 @@ Type: Types = {
 }
 
 FuncDef: Node = {
-    "func" ident "(" FuncArgs ")" 
+    "func" <name:ident>  <args:FuncArgs>  "->" <typ:Type> "{" <block:Block> "}" => Node::FuncDefNode(name, args, typ, block)
 }
 
-pub FuncArgs: Vec<(String, Types)> = {
-    ident ":" Type "," ident ":" Type => ..., 
-    ident ":" Type => vec![(<>)],
+FuncArgs: Vec<(String, Types)> = {
+    "(" <mut params: (<ident> ":" <Type> ",")*> <last: (<ident> ":" <Type>)?> ")" => {
+        params.extend(last.clone());
+        params
+    }, 
 }
+
+FuncCallArgs: Vec<Expr> = {
+    "(" <mut params: (<NonBoxedExpr> ",")*> <last: (<NonBoxedExpr>)?> ")" => {
+        params.extend(last.clone());
+        params
+    }, 
+}
+
+FuncCall: Box<Expr> = {
+    <name:ident> <args:FuncCallArgs> => Box::new(Expr::FuncCall(name, args))
+}
+
+VariableDef: Node = {
+    "let" <name: ident> ":" <typ: Type> "=" <expr: FullExpr> ";" => Node::VarDefNode(name, typ, expr)
+}
+
+IfStatement: Node = {
+    "if" <expr: NonBoxedExpr> "{" <block: Block> "}" => Node::IfNode(expr, block)
+}
+
+WhileStatement: Node = {
+    "while" <expr: NonBoxedExpr> "{" <block: Block> "}" => Node::WhileNode(expr, block)
+}
+
+// ForLoopStatement: Node = {
+//     "for" <start: Statement> ";" <expr: NonBoxedExpr> ";" <end: Statement> ";" "{" <block: Block> "}" => Node::ForLoopNode(Box::new(start), expr, Box::new(end), block)
+// }
 
 Num: i64 = r"[0-9]+" => i64::from_str(<>).unwrap();
 ident: String = r"[a-zA-Z][a-zA-Z0-9_-]*" => <>.to_string();

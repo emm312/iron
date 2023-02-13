@@ -1,22 +1,41 @@
+#[derive(Debug)]
 pub enum Node {
     ExprNode(Expr),
     FuncDefNode(
         String,
-        Vec<(Types, String)>,
-        Types
-    )
+        Vec<(String, Types)>,
+        Types,
+        Vec<Node>
+    ),
+    VarDefNode(
+        String,
+        Types,
+        Box<Expr>,
+    ),
+    IfNode(
+        Expr,
+        Vec<Node>
+    ),
+    WhileNode(
+        Expr,
+        Vec<Node>
+    ),
+    // ForLoopNode( TODO: Decide syntax
+    //     Box<Node>, Expr, Box<Node>,
+    //     Vec<Node>
+    // )
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Expr {
     BiOpNode(Box<Expr>, Operation, Box<Expr>),
     ComparisonNode(Box<Expr>, Comparison, Box<Expr>),
     Num(i64),
     Ident(String),
-    FuncCall(String, Vec<Box<Expr>>)
+    FuncCall(String, Vec<Expr>)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Operation {
     Add,
     Sub,
@@ -25,7 +44,7 @@ pub enum Operation {
     Mod
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Comparison {
     Eq,
     Neq,
@@ -35,7 +54,7 @@ pub enum Comparison {
     Lte
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Types {
     Infer,
     I8,
