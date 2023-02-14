@@ -70,6 +70,7 @@ Term: Box<Expr> = {
     Num => Box::new(Expr::Num(<>)),
     ident => Box::new(Expr::Ident(<>)),
     FuncCall,
+    string => Box::new(Expr::String(<>)),
     "(" <Expr> ")"
 }
 
@@ -125,4 +126,10 @@ WhileStatement: Node = {
 // }
 
 Num: i64 = r"[0-9]+" => i64::from_str(<>).unwrap();
+string: String = r#"".*""# => {
+    let mut chars = <>.chars();
+    chars.next();
+    chars.next_back();
+    chars.as_str().to_string()
+};
 ident: String = r"[a-zA-Z][a-zA-Z0-9_-]*" => <>.to_string();

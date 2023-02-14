@@ -32,7 +32,8 @@ pub enum Expr {
     ComparisonNode(Box<Expr>, Comparison, Box<Expr>),
     Num(i64),
     Ident(String),
-    FuncCall(String, Vec<Expr>)
+    FuncCall(String, Vec<Expr>),
+    String(String)
 }
 
 #[derive(Debug, Clone, Copy)]
