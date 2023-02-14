@@ -28,7 +28,6 @@ ExprNode: Node = {
 }
 
 FullExpr: Box<Expr> = {
-    FuncCall,
     Expr,
     Comparison
 }
@@ -70,6 +69,7 @@ FactorOp: Operation = {
 Term: Box<Expr> = {
     Num => Box::new(Expr::Num(<>)),
     ident => Box::new(Expr::Ident(<>)),
+    FuncCall,
     "(" <Expr> ")"
 }
 
