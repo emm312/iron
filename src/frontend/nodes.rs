@@ -20,6 +20,9 @@ pub enum Node {
         Expr,
         Vec<Node>
     ),
+    ReturnNode(
+        Expr
+    )
     // ForLoopNode( TODO: Decide syntax
     //     Box<Node>, Expr, Box<Node>,
     //     Vec<Node>
@@ -57,7 +60,6 @@ pub enum Comparison {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Types {
-    Infer,
     I8,
     I16,
     I32,

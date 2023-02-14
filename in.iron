@@ -1,3 +1,4 @@
 func main() -> i8 {
     print("Hello, World!");
+    return 0;
 }

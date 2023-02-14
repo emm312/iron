@@ -12,6 +12,7 @@ Statement: Node = {
     VariableDef,
     IfStatement,
     WhileStatement,
+    ReturnNode
     // ForLoopStatement
 }
 
@@ -84,7 +85,6 @@ Type: Types = {
     "u32" => Types::U32,
     "u64" => Types::U64,
     "String" => Types::STRING,
-    "Infer" => Types::Infer
 }
 
 FuncDef: Node = {
@@ -119,6 +119,10 @@ IfStatement: Node = {
 
 WhileStatement: Node = {
     "while" <expr: NonBoxedExpr> "{" <block: Block> "}" => Node::WhileNode(expr, block)
+}
+
+ReturnNode: Node = {
+    "return" <expr: NonBoxedExpr> ";" => Node::ReturnNode(expr)
 }
 
 // ForLoopStatement: Node = {
