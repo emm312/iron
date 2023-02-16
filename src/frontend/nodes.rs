@@ -10,17 +10,20 @@ pub enum Node {
     VarDefNode(
         String,
         Types,
-        Box<Expr>,
+        Expr,
     ),
     IfNode(
         Expr,
-        Vec<Node>
+        Vec<Node>,
     ),
     WhileNode(
         Expr,
         Vec<Node>
     ),
     ReturnNode(
+        Expr
+    ),
+    VarAssignNode(
         Expr
     )
     // ForLoopNode( TODO: Decide syntax
@@ -58,7 +61,7 @@ pub enum Comparison {
     Lte
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Types {
     I8,
     I16,
@@ -69,4 +72,20 @@ pub enum Types {
     U32,
     U64,
     STRING,
+}
+
+impl Types {
+    pub fn is_integer_type(self) -> bool {
+        match self {
+            Self::I8 => true,
+            Self::I16 => true,
+            Self::I32 => true,
+            Self::I64 => true,
+            Self::U8 => true,
+            Self::U16 => true,
+            Self::U32 => true,
+            Self::U64 => true,
+            _ => false
+        }
+    }
 }

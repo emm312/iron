@@ -1,4 +1,4 @@
-func main() -> i8 {
-    print("Hello, World!");
-    return 0;
+func main(a: i32, b: i32) -> String {
+    let var: u64 = "hello";
+    return "hi"; // hello world
 }

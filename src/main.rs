@@ -20,4 +20,6 @@ fn main() {
     let src = std::fs::read_to_string(args.input_file).expect("File not found.");
     let ast = frontend::parser::parse(&src);
     println!("{:#?}", ast);
+    typechecker::typecheck::check_types(ast);
+    println!("AST Typechecked OK");
 }

@@ -12,7 +12,8 @@ Statement: Node = {
     VariableDef,
     IfStatement,
     WhileStatement,
-    ReturnNode
+    ReturnNode,
+    VarAssignNode
     // ForLoopStatement
 }
 
@@ -110,7 +111,7 @@ FuncCall: Box<Expr> = {
 }
 
 VariableDef: Node = {
-    "let" <name: ident> ":" <typ: Type> "=" <expr: FullExpr> ";" => Node::VarDefNode(name, typ, expr)
+    "let" <name: ident> ":" <typ: Type> "=" <expr: NonBoxedExpr> ";" => Node::VarDefNode(name, typ, expr)
 }
 
 IfStatement: Node = {
@@ -123,6 +124,10 @@ WhileStatement: Node = {
 
 ReturnNode: Node = {
     "return" <expr: NonBoxedExpr> ";" => Node::ReturnNode(expr)
+}
+
+VarAssignNode: Node = {
+    ident "=" <expr: NonBoxedExpr> ";" => Node::VarAssignNode(expr)
 }
 
 // ForLoopStatement: Node = {
