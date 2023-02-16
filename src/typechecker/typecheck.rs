@@ -2,13 +2,6 @@ use std::{collections::HashMap, process::exit};
 
 use crate::frontend::nodes::{Node, Expr, Types};
 
-enum BasicTypeEnum {
-    Num,
-    Bool,
-    Void,
-    String,
-}
-
 pub fn check_types(ast: Vec<Node>) {
     let mut vars: HashMap<String, Types> = HashMap::new();
     let mut functions: HashMap<String, (Types, Vec<Types>)> = HashMap::new();
