@@ -12,9 +12,6 @@ pub fn check_types(ast: Vec<Node>) {
                 let n = name.as_str();
                 vars.insert(n.to_string(), typ);
             }
-            Node::FuncDefNode(name, args, typ, body) => {
-
-            }
             _ => todo!("add typechecking for node {:?}", statement)
         }
     }
