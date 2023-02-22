@@ -1,3 +1,7 @@
 /target
 /result
 .direnv
+out.c
+out.h
+a.out
+Cargo.lock

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, process::exit};
+/*use std::{collections::HashMap, process::exit};
 
 use crate::frontend::nodes::{Node, Expr, Types};
 
@@ -57,4 +57,4 @@ fn check_expr(expr: Expr, eval_to: Option<Types>, vars: &mut HashMap<String, Typ
         _ => todo!()
 
     }
-}
+}*/

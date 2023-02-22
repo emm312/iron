@@ -1,4 +1,10 @@
-func main(a: i32, b: i32) -> String {
-    let var: u64 = "hello";
-    return "hi"; // hello world
+
+func main() -> i8 {
+    let a: i32 = 5;
+    a = 6+9;
+    if a == 15 {
+        putchar(69);
+    }
+    putchar(10);
+    return 0;
 }

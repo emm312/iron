@@ -24,7 +24,13 @@ pub enum Node {
         Expr
     ),
     VarAssignNode(
+        String,
         Expr
+    ),
+    ExternNode(
+        String,
+        Vec<(String, Types)>,
+        Types
     )
     // ForLoopNode( TODO: Decide syntax
     //     Box<Node>, Expr, Box<Node>,
@@ -72,20 +78,5 @@ pub enum Types {
     U32,
     U64,
     STRING,
-}
-
-impl Types {
-    pub fn is_integer_type(self) -> bool {
-        match self {
-            Self::I8 => true,
-            Self::I16 => true,
-            Self::I32 => true,
-            Self::I64 => true,
-            Self::U8 => true,
-            Self::U16 => true,
-            Self::U32 => true,
-            Self::U64 => true,
-            _ => false
-        }
-    }
+    VOID
 }

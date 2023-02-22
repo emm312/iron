@@ -3,8 +3,13 @@ use crate::frontend::nodes::*;
 
 grammar;
 
+RootNodes: Node = {
+    FuncDef,
+    ExternNode
+}
+
 pub Iron: Vec<Node> = {
-    FuncDef* => <>
+    RootNodes*
 }
 
 Statement: Node = {
@@ -13,7 +18,8 @@ Statement: Node = {
     IfStatement,
     WhileStatement,
     ReturnNode,
-    VarAssignNode
+    VarAssignNode,
+    ExternNode
     // ForLoopStatement
 }
 
@@ -86,6 +92,7 @@ Type: Types = {
     "u32" => Types::U32,
     "u64" => Types::U64,
     "String" => Types::STRING,
+    "void" => Types::VOID
 }
 
 FuncDef: Node = {
@@ -127,12 +134,16 @@ ReturnNode: Node = {
 }
 
 VarAssignNode: Node = {
-    ident "=" <expr: NonBoxedExpr> ";" => Node::VarAssignNode(expr)
+    <i: ident> "=" <expr: NonBoxedExpr> ";" => Node::VarAssignNode(i, expr)
 }
 
 // ForLoopStatement: Node = {
 //     "for" <start: Statement> ";" <expr: NonBoxedExpr> ";" <end: Statement> ";" "{" <block: Block> "}" => Node::ForLoopNode(Box::new(start), expr, Box::new(end), block)
 // }
+
+ExternNode: Node = {
+    "extrn" <name: ident> <args: FuncArgs> "->" <ret: Type> ";" => Node::ExternNode(name, args, ret)
+}
 
 Num: i64 = r"[0-9]+" => i64::from_str(<>).unwrap();
 string: String = r#"".*""# => {
