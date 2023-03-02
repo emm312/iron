@@ -1,8 +1,7 @@
-
 func main() -> i8 {
     let a: i32 = 5;
     a = 6+9;
-    if a == 15 {
+    while 1 {
         putchar(69);
     }
     putchar(10);

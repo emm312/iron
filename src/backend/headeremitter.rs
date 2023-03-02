@@ -15,7 +15,7 @@ impl HeaderEmitter {
         HeaderEmitter { funcs: Vec::new() }
     }
     pub fn emit_c(self, out_dir: &Path) {
-        let mut header_file = fs::File::create(out_dir.clone().join("out.h")).unwrap();
+        let mut header_file = fs::File::create((*out_dir).join("out.h")).unwrap();
         writeln!(header_file, "#ifndef IRN_HEADER").unwrap();
         writeln!(header_file, "#define IRN_HEADER").unwrap();
         writeln!(header_file, "#include <stdint.h>\n#include <stdio.h>").unwrap();
@@ -36,13 +36,10 @@ impl HeaderEmitter {
 
 pub fn format_args(args: Vec<(String, String)>) -> String {
     let mut ret = String::new();
-    let mut args_mut = args.clone();
+    let mut args_mut = args;
     args_mut.reverse();
     let first = args_mut.pop();
-    match first {
-        Some(t) => { ret = format!("{} {}", t.0, t.1) }
-        None => ()
-    }
+    if let Some(t) = first { ret = format!("{} {}", t.0, t.1) }
     for arg in args_mut {
         ret = format!("{}, {} {}", ret, arg.0, arg.1);
     }

@@ -92,7 +92,8 @@ Type: Types = {
     "u32" => Types::U32,
     "u64" => Types::U64,
     "String" => Types::STRING,
-    "void" => Types::VOID
+    "void" => Types::VOID,
+    "bool" => Types::I8,
 }
 
 FuncDef: Node = {
