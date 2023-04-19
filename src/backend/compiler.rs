@@ -31,7 +31,7 @@ fn compile_ast(ast: Vec<Node>, emitter: &mut HeaderEmitter) -> String {
         match node {
             Node::FuncDefNode(name, args, typ, body) => {
                 emitter.add_func(typ.to_c_type(), name.clone(), to_c_args(args.clone()));
-                ret = format!("{}\n{} {}({}) {{\n{}\n}}", ret, typ.to_c_type(), name, format_args(to_c_args(args)), compile_ast(body, emitter));
+                ret = format!("{}\n{} {}({}) {{{}\n}}", ret, typ.to_c_type(), name, format_args(to_c_args(args)), compile_ast(body, emitter));
             }
             Node::ExternNode(name, args, typ) => {
                 ret = format!("{}\nextern {} {}({});", ret, typ.to_c_type(), name, format_args(to_c_args(args)));
@@ -49,13 +49,10 @@ fn compile_ast(ast: Vec<Node>, emitter: &mut HeaderEmitter) -> String {
                 ret = format!("{}\n{} = {};", ret, var, compile_expr(expr));
             }
             Node::IfNode(cond, body) => {
-                ret = format!("{}\nif ({}) {{\n{}}}", ret, compile_expr(cond), compile_ast(body, emitter));
-            }
-            Node::ExprNode(expr) => {
-                ret = format!("{}\n{};", ret, compile_expr(expr));
+                ret = format!("{}\nif ({}) {{{}\n}}", ret, compile_expr(cond), compile_ast(body, emitter));
             }
             Node::WhileNode(cond, body) => {
-                ret = format!("{}\nwhile ({}) {{\n{}}}", ret, compile_expr(cond), compile_ast(body, emitter));
+                ret = format!("{}\nwhile ({}) {{{}\n}}", ret, compile_expr(cond), compile_ast(body, emitter));
             }
         }
     }
