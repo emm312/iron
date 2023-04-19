@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate lalrpop_util;
 
+mod backend;
 mod frontend;
 mod typechecker;
-mod backend;
 
 use std::path::Path;
 
