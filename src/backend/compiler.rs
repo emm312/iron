@@ -52,7 +52,6 @@ fn compile_ast(ast: Vec<Node>, emitter: &mut HeaderEmitter) -> String {
                 ret = format!("{}\nif ({}) {{\n{}}}", ret, compile_expr(cond), compile_ast(body, emitter));
             }
             Node::ExprNode(expr) => {
-                println!("here");
                 ret = format!("{}\n{};", ret, compile_expr(expr));
             }
             Node::WhileNode(cond, body) => {
